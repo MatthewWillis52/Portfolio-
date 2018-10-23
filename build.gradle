@@ -1,0 +1,71 @@
+buildscript {
+    dependencies {
+        classpath files(mkdir('build/classes/main'))
+        classpath files(mkdir('build/resources/main'))
+        classpath 'com.opencsv:opencsv:3.8'
+		classpath 'org.robotframework:swinglibrary:1.9.6'
+    }
+}
+plugins {
+  id 'org.roboscratch.robot' version '0.1.1'
+}
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'application'
+mainClassName = 'edu.jsu.mcis.Leaderboard'
+
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Leaderboard', 
+                   'Implementation-Version': version, 
+                   'Main-Class': 'edu.jsu.mcis.Leaderboard'
+    }
+}
+
+task uberjar(type: Jar) {
+    manifest.from jar.manifest
+    classifier = 'all'
+    from {
+        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.opencsv:opencsv:3.8'
+	compile 'org.robotframework:swinglibrary:1.9.6'
+    testCompile 'junit:junit:4.+'
+}
+
+jacocoTestReport {
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports after running tests.'
+    additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+	afterEvaluate{
+		classDirectories = files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+				'**/*keywords**',
+				'**/*LeaderboardGUI**',
+				'**/*GUIPanels**',
+			])
+		})
+	}
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
+}
+
+runrobot.debugfile = 'debug.log'
+runrobot.dependsOn build
