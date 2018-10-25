@@ -25,6 +25,12 @@ In the beginning, it creates 5 array lists. One of type Student, One of Type Cou
 It then tries to read the respective files brought in by coursegrades and parses them as well. It has two csv readers within the program that activates when either the file type is student or course.  It then sets the id for the courses or the students. 
 The bottom half of data reader computes which course is being chosen or student is being chosen as well as their respective ID.
 
-The next class is the GUIPanels class. This class makes the GUI panel that the student first sees when they launch the program. It lays it out in a rectangle and forces full screen, but it still allows the user to make the window smaller if need be. 
+The next class is the GUIPanels class. This class makes the GUI panel that the student first sees when they launch the program. 
+It lays it out in a rectangle and forces full screen, but it still allows the user to make the window smaller if need be. 
+
 The next class is Leaderboard. Leaderboard runs the back bone of the system and allows input from the command line as well as the gui
-LeaderboardGUI is the back bone of the gui sytem and is what sets the frame sizes, which are 500,500 and allows the gui to be scrollable
+LeaderboardGUI is the back bone of the gui system and is what sets the frame sizes, which are 500 by 500, and allows the gui to be scrollable
+
+The last class of the main program is Student. Student is essentially the same class as Course, but it is dealing strictly with students.
+
+The rest of the files in the program deal with keywords for the programs as well as test driven development for the whole program where we used a program builder called gradle that used an application called runRobot. runRobot input data and other variables to break the program. 
